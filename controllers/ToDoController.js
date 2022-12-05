@@ -1,93 +1,42 @@
 // our calls to mongodb
 //our scheme
-//const ToDoModel = require("../models/ToDoModel");
-
-// module.exports.getToDo = async (req, res) => {
-//     const todo = await ToDoModel.find();
-//     res.send(todo);
-// }
-
-// //find by id
-// // module.exports.findToDo =  async (req, res)=>{
-// //     const todo = await ToDoModel.find(req.body);
-   
-// //     res.json(todo);
-// // }
+const ToDoModel = require("../models/ToDoModel");
 
 
 
-// module.exports.saveToDo = (req, res) => {
-//     const { text } = req.body;
+const getToDo = async (req, res) => {
+    const todo = await ToDoModel.find();
+    res.json(todo);
+  }
+  
+  const saveToDo = async (req, res) => {
+    const body = req.body
+    const {text} = body  // cuando se desectructura se elimina de la derecha el caracter que remos en la izquierda
+    // si queremos el text body.text tenemos que sacarlo const {text} = body
 
-//     ToDoModel
-//         .create({ text })
-//         .then((data) =>{ 
-//             console.log("Added Successfully...")
-//             console.log(data)
-//             res.send(data)
-//         })
-//         .catch((err) => console.log(err));
-// }
+    const data = {
+        text : text
+        //Mas propiedades.
+    }
+    const newTodo = new ToDoModel(data)
+    await newTodo.save()
+    res.json(newTodo);
+  }
+  
+  const updateToDo = async (req, res) => {
+    console.log(req)
+    const {id} = req.params 
+    const todo = await ToDoModel.findByIdAndUpdate(id, req.body);
+    res.json(todo);
+  };
 
-// module.exports.deleteToDo = (req, res) => {
-//     const { _id } = req.body;
-
-//     console.log('id ---> ', _id);
-
-//     ToDoModel
-//         .findByIdAndDelete(_id)
-//         .then(() => res.set(204).send("Deleted Successfully..."))
-//         .catch((err) => console.log(err));
-// }
-
-// module.exports.updateToDo = (req, res) => {
-//     const { _id, text } = req.body;
-//     console.log('you have modified',_id, text)
-//     ToDoModel
-//         .findByIdAndUpdate(_id, { text })
-//         .then(() => res.set(200).send("Updated Successfully..."))
-//         .catch((err) => console.log(err));
-// }
-
-
-//------------------------------
-
-// const ToDoModel = require("../models/ToDoModel");
-
-// module.exports.getToDo = async (req, res) => {
-//     const todo = await ToDoModel.find();
-//     res.send(todo);
-// }
-
-// module.exports.saveToDo = (req, res) => {
-//     const { text } = req.body;
-
-//     ToDoModel
-//         .create({ text })
-//         .then((data) =>{ 
-//             console.log("Added Successfully...")
-//             console.log(data)
-//             res.send(data)
-//         })
-//         .catch((err) => console.log(err));
-// }
-
-// module.exports.deleteToDo = (req, res) => {
-//     const { _id } = req.body;
-
-//     console.log('id ---> ', _id);
-
-//     ToDoModel
-//         .findByIdAndDelete(_id)
-//         .then(() => res.set(201).send("Deleted Successfully..."))
-//         .catch((err) => console.log(err));
-// }
-
-// module.exports.updateToDo = (req, res) => {
-//     const { _id, text } = req.body;
-
-//     ToDoModel
-//         .findByIdAndUpdate(_id, { text })
-//         .then(() => res.set(201).send("Updated Successfully..."))
-//         .catch((err) => console.log(err));
-// }
+const deleteToDo = (req, res) => {
+    ToDoModel.findByIdAndDelete(req.params.id, (err, todo ) =>{
+        if(err){
+            return res.status(500).json(err)
+        }
+        console.log('se borra el todo') // log
+        res.status(200).json(todo)
+    })
+}
+  module.exports = {getToDo, saveToDo, updateToDo, deleteToDo}

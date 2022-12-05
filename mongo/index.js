@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require("dotenv").config();
 
-mongoose.connect('mongodb://davide:nuclio@localhost:27022/app?authSource=admin');
+mongoose.connect(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@localhost:27022/app?authSource=admin`);
 
 
 const mongo = mongoose.connection;

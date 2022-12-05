@@ -14,7 +14,7 @@ require("dotenv").config();
 
 //we set the server listening to port 5000
 const app = express();
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORTSERVER || 5000;
 
 //It parses incoming JSON requests and puts the parsed data in req.body
 app.use(express.json())
