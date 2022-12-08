@@ -1,7 +1,8 @@
 // our calls to mongodb
 //our scheme
 const ToDoModel = require("../models/ToDoModel");
-const {validateTodo, addDateMiddleware} = require('../middleware')
+//const {validateTodo, addDateMiddleware} = require('../middleware');
+const User = require("../mongo/schema/user/user");
 
 
 
@@ -43,4 +44,31 @@ const deleteToDo = (req, res) => {
         res.status(200).json(todo)
     })
 }
-  module.exports = {getToDo, saveToDo, updateToDo, deleteToDo}
+
+
+const getUserList = async (req, res) => {
+  const user = await User.find();
+  res.json(user);
+}
+
+
+
+const registerUser = async (req, res)=>{
+
+  const body = req.body
+    const {username,password}  = body
+   
+    const data = {
+        username : username,
+        password : password
+       
+    }
+    const newUser = new User(data)
+    await newUser.save()
+    res.json(newUser);
+}
+
+
+
+
+  module.exports = {getToDo, saveToDo, updateToDo, deleteToDo, registerUser, getUserList}

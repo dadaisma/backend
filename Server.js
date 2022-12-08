@@ -5,6 +5,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors= require("cors")
+const bcrypt = require ('bcrypt')
+//const bodyParser= require('body-parser')
+//const path= require('path')
 
 //we redirect to our route manager
 const routes = require('./routes/ToDoRoute');
@@ -21,6 +24,13 @@ app.use(express.json())
 
 //to avoid issue working in locale
 app.use(cors())
+
+//userauth
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false}))
+
+//app.use(express.static(path.join(__dirname,'public')))
+
 
 //mongo connection
 mongoose
