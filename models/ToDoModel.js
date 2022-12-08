@@ -1,12 +1,15 @@
 // our template for the inputs we need
 
 const mongoose = require('mongoose');
+const { validateTodo } = require("../middleware");
 
 const todoSchema = new mongoose.Schema({
     text: {
         type: String,
-        required: true
-    }
+        required: true},
+        done:false,
+        priority: String
+        
 });
 
 module.exports = mongoose.model('ToDo', todoSchema);

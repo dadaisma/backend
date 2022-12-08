@@ -1,6 +1,7 @@
 // our calls to mongodb
 //our scheme
 const ToDoModel = require("../models/ToDoModel");
+const {validateTodo, addDateMiddleware} = require('../middleware')
 
 
 
@@ -9,13 +10,16 @@ const getToDo = async (req, res) => {
     res.json(todo);
   }
   
-  const saveToDo = async (req, res) => {
+  const saveToDo = async  (req, res) => {
     const body = req.body
-    const {text} = body  // cuando se desectructura se elimina de la derecha el caracter que remos en la izquierda
+    const {text,done,priority}  = body  // cuando se desectructura se elimina de la derecha el caracter que remos en la izquierda
     // si queremos el text body.text tenemos que sacarlo const {text} = body
-
+    
+   
     const data = {
-        text : text
+        text : text,
+        done : done,
+        priority : priority
         //Mas propiedades.
     }
     const newTodo = new ToDoModel(data)
@@ -35,7 +39,7 @@ const deleteToDo = (req, res) => {
         if(err){
             return res.status(500).json(err)
         }
-        console.log('se borra el todo') // log
+       
         res.status(200).json(todo)
     })
 }

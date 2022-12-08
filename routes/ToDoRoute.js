@@ -1,9 +1,13 @@
  const { Router } = require("express");
  
+
+
  //myschema
  const ToDoModel = require("../models/ToDoModel");
 
  const { getToDo, saveToDo, updateToDo, deleteToDo } = require("../controllers/ToDoController");
+const { validate } = require("../models/ToDoModel");
+
  //const { getToDo } = require("../models/ToDoModel");
 // //here we set the path where to check/perform in insomnia
 
