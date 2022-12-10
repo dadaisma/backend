@@ -2,7 +2,7 @@
 //our scheme
 const ToDoModel = require("../models/ToDoModel");
 //const {validateTodo, addDateMiddleware} = require('../middleware');
-const User = require("../mongo/schema/user/user");
+const UserModel = require("../mongo/schema/user/user");
 
 
 
@@ -19,7 +19,7 @@ const getToDo = async (req, res) => {
    
     const data = {
         text : text,
-        done : done,
+        done : false,
         priority : priority
         //Mas propiedades.
     }
@@ -30,7 +30,7 @@ const getToDo = async (req, res) => {
   
   const updateToDo = async (req, res) => {
     console.log(req)
-    const {id} = req.params 
+    const {id} = req.params
     const todo = await ToDoModel.findByIdAndUpdate(id, req.body);
     res.json(todo);
   };
@@ -45,9 +45,11 @@ const deleteToDo = (req, res) => {
     })
 }
 
+//----------------------------------
+
 
 const getUserList = async (req, res) => {
-  const user = await User.find();
+  const user = await UserModel.find();
   res.json(user);
 }
 
@@ -63,12 +65,36 @@ const registerUser = async (req, res)=>{
         password : password
        
     }
-    const newUser = new User(data)
+    const newUser = new UserModel(data)
     await newUser.save()
     res.json(newUser);
 }
 
+const editUser = async (req, res) =>{
+  console.log(req)
+  const {id} = req.params
+  const user = await UserModel.findByIdAndUpdate(id, req.body);
+  res.json(user);
+}
+
+const deleteUser = (req, res) => {
+  UserModel.findByIdAndDelete(req.params.id, (err, user ) =>{
+      if(err){
+          return res.status(500).json(err)
+      }
+     
+      res.status(200).json(user)
+  })
+}
 
 
-
-  module.exports = {getToDo, saveToDo, updateToDo, deleteToDo, registerUser, getUserList}
+  module.exports = {
+    getToDo, 
+    saveToDo, 
+    updateToDo, 
+    deleteToDo, 
+    registerUser, 
+    getUserList, 
+    editUser, 
+    deleteUser
+  }

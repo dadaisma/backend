@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 //const saltRounds= 10
 
 const userSchema = new mongoose.Schema({
+    // _id: {String},
     username:  {type: String, required: true, unique:true }, 
     password: {type: String, required:true },
     
