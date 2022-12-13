@@ -1,5 +1,5 @@
 // our template for the inputs we need
-
+const {Schema, model}= require('mongoose')
 const mongoose = require('mongoose');
 const { validateTodo } = require("../middleware");
 
@@ -7,8 +7,18 @@ const todoSchema = new mongoose.Schema({
     text: {
         type: String,
         required: true},
-        done:Boolean,
-        priority: String
+    done:{
+         type: Boolean
+    },
+        priority:{
+            type: String,
+            enum:['high','mid','low'],
+        default:'low'
+        },
+        fecha:{type: Date}
+        
+        // priority:{type: String,
+        //     enum:['high','mid','low'] } 
         
 });
 

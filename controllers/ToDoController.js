@@ -12,20 +12,23 @@ const getToDo = async (req, res) => {
   }
   
   const saveToDo = async  (req, res) => {
+    try{     
     const body = req.body
-    const {text,done,priority}  = body  // cuando se desectructura se elimina de la derecha el caracter que remos en la izquierda
+    const {text,done,priority,fecha}  = body  // cuando se desectructura se elimina de la derecha el caracter que remos en la izquierda
     // si queremos el text body.text tenemos que sacarlo const {text} = body
     
-   
     const data = {
         text : text,
-        done : false,
-        priority : priority
+        done : done,
+        priority : priority,
+        fecha: fecha
         //Mas propiedades.
     }
     const newTodo = new ToDoModel(data)
+   // const newTodo2 = new ToDoModel({text,done, priority, fecha})
     await newTodo.save()
-    res.json(newTodo);
+    res.json(newTodo);}
+    catch(err){ res.status(404)}
   }
   
   const updateToDo = async (req, res) => {
@@ -73,20 +76,23 @@ const registerUser = async (req, res)=>{
 const editUser = async (req, res) =>{
   console.log(req)
   const {id} = req.params
-  const user = await UserModel.findByIdAndUpdate(id, req.body);
+  const user = await UserModel.findByIdAndUpdate({_id: id}, req.body);
   res.json(user);
 }
 
-const deleteUser = (req, res) => {
-  UserModel.findByIdAndDelete(req.params.id, (err, user ) =>{
-      if(err){
-          return res.status(500).json(err)
-      }
-     
-      res.status(200).json(user)
-  })
-}
+// const deleteUser = (req, res) => {
+//   UserModel.findByIdAndDelete(req.params.id, (err, user ) =>{
+//       if(err){
+//           return res.status(500).json(err)
+//       }
 
+      const deleteUser = ({ id }) => {
+       UserModel.findOneAndDelete({ filter: { _id: id } });
+      }
+
+
+     
+  
 
   module.exports = {
     getToDo, 
