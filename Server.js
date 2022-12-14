@@ -12,6 +12,9 @@ const bcrypt = require ('bcrypt')
 //we redirect to our route manager
 const routes = require('./routes/ToDoRoute');
 
+//test
+// const routes2 = require('./routes/UserRoute')
+
 //will hide data we want
 require("dotenv").config();
 
@@ -46,4 +49,5 @@ mongoose
 
 //communication with express
 app.use(routes)
+// app.use(routes2)
 app.listen(PORT, ()=>console.log(`listening on:${PORT}`))

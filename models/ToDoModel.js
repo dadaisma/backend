@@ -15,7 +15,7 @@ const todoSchema = new mongoose.Schema({
             enum:['high','mid','low'],
         default:'low'
         },
-        fecha:{type: Date}
+        fecha: {type: String}
         
         // priority:{type: String,
         //     enum:['high','mid','low'] } 
