@@ -39,9 +39,9 @@ const getToDo = async (req, res) => {
   };
 
 const deleteToDo = (req, res) => {
-    ToDoModel.findByIdAndDelete(req.params.id, (err, todo ) =>{
-        if(err){
-            return res.status(500).json(err)
+    ToDoModel.findByIdAndDelete(req.params.id, ( err, todo ) =>{
+        if(!todo){
+            return res.status(500).send('notfoundd')
         }
        
         res.status(200).json(todo)
